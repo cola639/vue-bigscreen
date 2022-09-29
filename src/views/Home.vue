@@ -70,12 +70,12 @@
 
       <!-- Module Content Center-->
       <div class="bs_content_center">
-        <div class="bs_content_center_top"></div>
+        <div class="bs_content_center_top">
+          <e-map domId="bs_content_center_top" />
+        </div>
         <div class="img-center mw bs_content_center_bottom">
           <match-title text="赛事统计" />
-          <!-- <div class="bs_ccb_bar">
-            <e-bar domId="bs_content_center_bottom" />
-          </div> -->
+
           <e-bar domId="bs_content_center_bottom" :option="this.matchBar" />
         </div>
       </div>
@@ -116,6 +116,7 @@
 <script>
 import EPie from '@/components/Echart/EPie.vue'
 import EBar from '@/components/Echart/EBar.vue'
+import EMap from '@/components/Echart/EMap.vue'
 import ContentTitle from '@/components/ContentTitle'
 import ChooseItem from '@/components/ChooseItem'
 import MatchItem from '@/components/MatchItem'
@@ -125,6 +126,7 @@ import MonthCircle from '@/components/Circle'
 export default {
   name: 'Home',
   components: {
+    EMap,
     EPie,
     EBar,
     ContentTitle,
@@ -187,7 +189,6 @@ export default {
 
         xAxis: {
           type: 'category',
-          boundaryGap: false,
           data: ['10-21', '10-22', '10-23', '10-24', '10-25', '10-26'],
           boundaryGap: false, // 距离
 
@@ -401,7 +402,8 @@ export default {
       }
     }
   },
-  mounted() {}
+  mounted() {},
+  methods: {}
 }
 </script>
 
@@ -558,9 +560,9 @@ export default {
 /*  Module Content Center  */
 .bs_content_center {
   .bs_content_center_top {
-    width: 570px;
+    width: 600px;
     height: 387px;
-    border: 1px solid #fff;
+    padding-top: 10px;
   }
 
   .bs_content_center_bottom {
