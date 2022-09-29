@@ -9,7 +9,8 @@ export default {
     return {}
   },
   props: {
-    domId: { type: String, required: true }
+    domId: { type: String, required: true },
+    option: { type: Object, required: true }
   },
   created() {},
   mounted() {
@@ -29,25 +30,25 @@ export default {
     //   const myChart = this.echarts.init(chartDom)
     //   let option
 
-    //   option = {
-    //     xAxis: {
-    //       type: 'category',
-    //       boundaryGap: false,
-    //       data: ['10-21', '10-22', '10-23', '10-24', '10-25', '10-26']
-    //     },
-    //     yAxis: {
-    //       type: 'value'
-    //     },
-    //     series: [
-    //       {
-    //         data: [20, 60, 50, 40, 35, 50, 20],
-    //         type: 'line',
-    //         areaStyle: {
-    //           color: '#f316'
-    //         }
+    // option = {
+    //   xAxis: {
+    //     type: 'category',
+    //     boundaryGap: false,
+    //     data: ['10-21', '10-22', '10-23', '10-24', '10-25', '10-26']
+    //   },
+    //   yAxis: {
+    //     type: 'value'
+    //   },
+    //   series: [
+    //     {
+    //       data: [20, 60, 50, 40, 35, 50, 20],
+    //       type: 'line',
+    //       areaStyle: {
+    //         color: '#f316'
     //       }
-    //     ]
-    //   }
+    //     }
+    //   ]
+    // }
 
     //   option && myChart.setOption(option)
     // }
@@ -57,110 +58,145 @@ export default {
       console.log('domId', this.domId)
       const chartDom = document.getElementById(this.domId)
       const myChart = this.echarts.init(chartDom)
-      let option
+      myChart.setOption(this.option)
 
-      const colors = ['#5470C6', '#91CC75', '#EE6666']
-      option = {
-        color: colors,
-        tooltip: {
-          trigger: 'axis',
-          axisPointer: {
-            type: 'cross'
-          }
-        },
-        grid: {
-          right: '20%'
-        },
-        toolbox: {
-          feature: {
-            dataView: { show: true, readOnly: false },
-            restore: { show: true },
-            saveAsImage: { show: true }
-          }
-        },
-        legend: {
-          data: ['Evaporation', 'Precipitation', 'Temperature']
-        },
-        xAxis: [
-          {
-            type: 'category',
-            axisTick: {
-              alignWithLabel: true
-            },
-            // prettier-ignore
-            data: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
-          }
-        ],
-        yAxis: [
-          {
-            type: 'value',
-            name: 'Evaporation',
-            position: 'right',
-            alignTicks: true,
-            axisLine: {
-              show: true,
-              lineStyle: {
-                color: colors[0]
-              }
-            },
-            axisLabel: {
-              formatter: '{value} ml'
-            }
-          },
-          {
-            type: 'value',
-            name: 'Precipitation',
-            position: 'right',
-            alignTicks: true,
-            offset: 80,
-            axisLine: {
-              show: true,
-              lineStyle: {
-                color: colors[1]
-              }
-            },
-            axisLabel: {
-              formatter: '{value} ml'
-            }
-          },
-          {
-            type: 'value',
-            name: '温度',
-            position: 'left',
-            alignTicks: true,
-            axisLine: {
-              show: true,
-              lineStyle: {
-                color: colors[2]
-              }
-            },
-            axisLabel: {
-              formatter: '{value} °C'
-            }
-          }
-        ],
-        series: [
-          {
-            name: 'Evaporation',
-            type: 'bar',
-            data: [2.0, 4.9, 7.0, 23.2, 25.6, 76.7, 135.6, 162.2, 32.6, 20.0, 6.4, 3.3]
-          },
-          {
-            name: 'Precipitation',
-            type: 'bar',
-            yAxisIndex: 1,
-            data: [2.6, 5.9, 9.0, 26.4, 28.7, 70.7, 175.6, 182.2, 48.7, 18.8, 6.0, 2.3]
-          },
-          {
-            name: 'Temperature',
-            type: 'line',
-            yAxisIndex: 2,
-            data: [2.0, 2.2, 3.3, 4.5, 6.3, 10.2, 20.3, 23.4, 23.0, 16.5, 12.0, 6.2]
-          }
-        ]
-      }
+      // option = {
+      //   tooltip: {
+      //     trigger: 'axis',
+      //     axisPointer: {
+      //       type: 'cross',
+      //       crossStyle: {
+      //         color: '#3851AD'
+      //       }
+      //     }
+      //   },
+      //   toolbox: {
+      //     feature: {
+      //       // dataView: { show: true, readOnly: false },
+      //       // magicType: { show: true, type: ['line', 'bar'] },
+      //       // restore: { show: true },
+      //       // saveAsImage: { show: true }
+      //     }
+      //   },
+      //   dataZoom: {
+      //     show: true,
+      //     type: 'inside',
+      //     realtime: true,
+      //     height: 10,
+      //     start: 0,
+      //     end: 100,
+      //     textStyle: true
+      //   },
+      //   legend: {
+      //     // data: ['Evaporation', 'Precipitation', 'Temperature']
+      //     data: ['参与率', '点击率'],
+      //     align: 'left',
+      //     textStyle: {
+      //       color: '#fff'
+      //     },
+      //     itemWidth: 10,
+      //     itemHeight: 10,
+      //     itemGap: 35
+      //   },
+      //   xAxis: [
+      //     {
+      //       type: 'category',
+      //       data: ['广州', '深圳', '佛山', '东莞', '汕头', '清远', '肇庆'],
+      //       axisPointer: {
+      //         type: 'shadow'
+      //       },
+      //       axisLabel: {
+      //         show: true,
+      //         textStyle: {
+      //           color: '#fff', //更改坐标轴文字颜色
+      //           fontSize: 14 //更改坐标轴文字大小
+      //         }
+      //       }
+      //     }
+      //   ],
+      //   yAxis: [
+      //     {
+      //       type: 'value',
+      //       name: '参与率',
+      //       nameTextStyle: {
+      //         color: '#fff'
+      //       },
+      //       min: 0,
+      //       max: 100,
+      //       interval: 20,
+      //       axisLabel: {
+      //         show: true,
+      //         textStyle: {
+      //           color: '#fff', //更改坐标轴文字颜色
+      //           fontSize: 12 //更改坐标轴文字大小
+      //         },
+      //         formatter: '{value} '
+      //       }
+      //     },
+      //     {
+      //       type: 'value',
+      //       name: '点击率',
+      //       nameTextStyle: {
+      //         color: '#fff'
+      //       },
+      //       min: 0,
+      //       max: 100,
+      //       interval: 20,
 
-      option && myChart.setOption(option)
+      //       axisLabel: {
+      //         show: true,
+      //         textStyle: {
+      //           color: '#fff', //更改坐标轴文字颜色
+      //           fontSize: 12 //更改坐标轴文字大小
+      //         },
+      //         formatter: '{value} '
+      //       }
+      //     }
+      //   ],
+      //   series: [
+      //     {
+      //       name: '参与率',
+      //       type: 'bar',
+      //       tooltip: {
+      //         valueFormatter: function (value) {
+      //           return value + ' %'
+      //         }
+      //       },
+      //       itemStyle: {
+      //         color: this.echarts.graphic.LinearGradient(0, 0, 0, 1, [
+      //           { offset: 0, color: '#00C7FF' },
+      //           { offset: 1, color: '#0095FF' }
+      //         ]),
+      //         barBorderRadius: [6, 6, 0, 0] // （顺时针左上，右上，右下，左下）
+      //       },
+      //       barWidth: 15,
+      //       data: [80, 60, 40, 60, 80, 60, 40]
+      //     },
+      //     {
+      //       name: '点击率',
+      //       type: 'line',
+      //       yAxisIndex: 1,
+      //       tooltip: {
+      //         valueFormatter: function (value) {
+      //           return value + ' %'
+      //         }
+      //       },
+      //       symbol: 'none',
+      //       itemStyle: {
+      //         normal: {
+      //           lineStyle: {
+      //             color: '#F8C700',
+      //             width: 3
+      //           }
+      //         }
+
+      //       },
+      //       barWidth: 2,
+      //       data: [80, 60, 40, 60, 80, 60, 40]
+      //     }
+      //   ]
+      // }
+      // option && myChart.setOption(option)
     }
   }
 }

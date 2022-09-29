@@ -1,5 +1,5 @@
 <template>
-  <div class="ib rc">
+  <div>
     <div
       v-for="(item, index) in checkList"
       :class="[index === currentIndex ? 'checked' : '', 'ib default']"

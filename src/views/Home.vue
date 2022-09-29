@@ -58,25 +58,29 @@
             </span>
           </div>
 
-          <div class="rc bs_clb_list">
+          <div class="ib rc bs_clb_list">
             <choose-item :checkList="['按周', '按月', '按年']" />
           </div>
 
-          <div class="rc bs_clb_bar">
-            <e-bar domId="bs_clb_bar" />
+          <div class="bs_clb_echart">
+            <e-bar domId="bs_clb_bar" :option="this.analysisBar" />
           </div>
         </div>
       </div>
 
+      <!-- Module Content Center-->
       <div class="bs_content_center">
         <div class="bs_content_center_top"></div>
-        <div class="mw bs_content_center_bottom">
+        <div class="img-center mw bs_content_center_bottom">
           <match-title text="赛事统计" />
-          <e-bar domId="bs_content_center_bottom" />
+          <!-- <div class="bs_ccb_bar">
+            <e-bar domId="bs_content_center_bottom" />
+          </div> -->
+          <e-bar domId="bs_content_center_bottom" :option="this.matchBar" />
         </div>
       </div>
 
-      <!-- Module right -->
+      <!-- Module Content right -->
       <div class="bs_content_right">
         <div class="img-center cw bs_content_right_top">
           <content-title text="热门赛事" />
@@ -168,7 +172,233 @@ export default {
           width: '25%',
           number: 1000
         }
-      ]
+      ],
+
+      analysisBar: {
+        tooltip: {
+          trigger: 'axis',
+          axisPointer: {
+            type: 'cross',
+            crossStyle: {
+              color: '#3851AD'
+            }
+          }
+        },
+
+        xAxis: {
+          type: 'category',
+          boundaryGap: false,
+          data: ['10-21', '10-22', '10-23', '10-24', '10-25', '10-26'],
+          boundaryGap: false, // 距离
+
+          axisPointer: {
+            type: 'shadow'
+          },
+          axisLabel: {
+            show: true,
+            textStyle: {
+              color: '#fff', //更改坐标轴文字颜色
+              fontSize: 12 //更改坐标轴文字大小
+            }
+          }
+        },
+        yAxis: {
+          type: 'value',
+          min: 0,
+          // max: 90,
+          interval: 20,
+          splitLine: {
+            show: true,
+            // yAxis 穿透线
+            lineStyle: {
+              color: '#0095ff'
+            }
+          },
+          axisLabel: {
+            show: true,
+            textStyle: {
+              color: '#fff', //更改坐标轴文字颜色
+              fontSize: 12 //更改坐标轴文字大小
+            },
+            formatter: '{value} '
+          }
+        },
+        series: [
+          {
+            data: [20, 60, 50, 40, 35, 50, 20],
+            type: 'line',
+            areaStyle: {
+              color: 'rgb(24,41,76)'
+            },
+
+            tooltip: {
+              valueFormatter: function (value) {
+                return ' 点击量 ' + value
+              }
+            },
+            // symbol: 'circle',
+            symbolSize: 7,
+            smooth: true,
+            itemStyle: {
+              normal: {
+                lineStyle: {
+                  color: '#0095FF',
+                  width: 2
+                }
+              }
+            }
+          }
+        ]
+      },
+
+      matchBar: {
+        tooltip: {
+          trigger: 'axis',
+          axisPointer: {
+            type: 'cross',
+            crossStyle: {
+              color: '#3851AD'
+            }
+          }
+        },
+        toolbox: {
+          feature: {
+            // dataView: { show: true, readOnly: false },
+            // magicType: { show: true, type: ['line', 'bar'] },
+            // restore: { show: true },
+            // saveAsImage: { show: true }
+          }
+        },
+        dataZoom: {
+          show: true,
+          type: 'inside',
+          realtime: true,
+          height: 10,
+          start: 0,
+          end: 100,
+          textStyle: true
+        },
+        legend: {
+          // data: ['Evaporation', 'Precipitation', 'Temperature']
+          data: ['参与率', '点击率'],
+          align: 'left',
+          textStyle: {
+            color: '#fff'
+          },
+          itemWidth: 10,
+          itemHeight: 10,
+          itemGap: 35
+        },
+        xAxis: [
+          {
+            type: 'category',
+            data: ['广州', '深圳', '佛山', '东莞', '汕头', '清远', '肇庆'],
+            axisPointer: {
+              type: 'shadow'
+            },
+            axisLabel: {
+              show: true,
+              textStyle: {
+                color: '#fff', //更改坐标轴文字颜色
+                fontSize: 14 //更改坐标轴文字大小
+              }
+            }
+          }
+        ],
+        yAxis: [
+          {
+            type: 'value',
+            name: '参与率',
+            nameTextStyle: {
+              color: '#fff'
+            },
+            min: 0,
+            max: 100,
+            interval: 20,
+            axisLabel: {
+              show: true,
+              textStyle: {
+                color: '#fff', //更改坐标轴文字颜色
+                fontSize: 12 //更改坐标轴文字大小
+              },
+              formatter: '{value} '
+            }
+          },
+          {
+            type: 'value',
+            name: '点击率',
+            nameTextStyle: {
+              color: '#fff'
+            },
+            min: 0,
+            max: 100,
+            interval: 20,
+
+            axisLabel: {
+              show: true,
+              textStyle: {
+                color: '#fff', //更改坐标轴文字颜色
+                fontSize: 12 //更改坐标轴文字大小
+              },
+              formatter: '{value} '
+            },
+            splitLine: {
+              show: true,
+              // yAxis 穿透线
+              lineStyle: {
+                color: '#0095ff'
+              }
+            }
+          }
+        ],
+        series: [
+          {
+            name: '参与率',
+            type: 'bar',
+            tooltip: {
+              valueFormatter: function (value) {
+                return value + ' %'
+              }
+            },
+            itemStyle: {
+              color: this.echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                { offset: 0, color: '#00C7FF' },
+                { offset: 1, color: '#0095FF' }
+              ]),
+              barBorderRadius: [6, 6, 0, 0] // （顺时针左上，右上，右下，左下）
+            },
+            barWidth: 15,
+            data: [80, 60, 40, 60, 80, 60, 40]
+          },
+          {
+            name: '点击率',
+            type: 'line',
+            yAxisIndex: 1,
+            tooltip: {
+              valueFormatter: function (value) {
+                return value + ' %'
+              }
+            },
+            symbol: 'none',
+            itemStyle: {
+              normal: {
+                lineStyle: {
+                  color: '#F8C700',
+                  width: 3
+                }
+              }
+              // 0.1的线条是非常细的了
+              // normal: {
+              //   lineStyle: {
+
+              //   }
+              // }
+            },
+            barWidth: 2,
+            data: [80, 60, 40, 60, 80, 60, 40]
+          }
+        ]
+      }
     }
   },
   mounted() {}
@@ -250,7 +480,7 @@ export default {
   color: #ffffff;
   letter-spacing: 2px;
   text-align: center;
-  text-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+  text-shadow: 0.5px 0.5px #135dff;
 }
 
 /* Module Content */
@@ -284,7 +514,7 @@ export default {
 
 .bs_clt_info,
 .bs_clb_info {
-  margin-top: 16px;
+  margin-top: 15px;
   width: 220px;
   text-align: right;
 }
@@ -315,14 +545,14 @@ export default {
 .bs_content_left_bottom {
   .bs_clb_list {
     margin-top: 12px;
+    z-index: 9;
   }
 
-  // .bs_clb_bar {
-  //   border: 1px solid #fff;
-  //   margin-top: 12px;
-  //   width: 100%;
-  //   height: 150px;
-  // }
+  .bs_clb_echart {
+    width: 300px;
+    height: 230px;
+    margin-top: -20px;
+  }
 }
 
 /*  Module Content Center  */
@@ -335,10 +565,13 @@ export default {
 
   .bs_content_center_bottom {
     width: 570px;
-    height: 227px;
-
     margin-top: 11px;
   }
+}
+/*  Module Content Center  */
+.bs_ccb_bar {
+  width: 532px;
+  height: 171px;
 }
 
 /*  Module Content Right  */
