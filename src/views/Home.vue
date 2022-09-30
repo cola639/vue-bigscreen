@@ -123,6 +123,7 @@ import MatchItem from '@/components/MatchItem'
 import MatchTitle from '@/components/MatchTitle'
 import SpanWrap from '@/components/SpanWrap'
 import MonthCircle from '@/components/Circle'
+// import {  } from "@/api/home";
 export default {
   name: 'Home',
   components: {
@@ -281,7 +282,7 @@ export default {
         },
         legend: {
           // data: ['Evaporation', 'Precipitation', 'Temperature']
-          data: ['参与率', '点击率'],
+          data: ['项目数', '点击率'],
           align: 'left',
           textStyle: {
             color: '#fff'
@@ -309,7 +310,7 @@ export default {
         yAxis: [
           {
             type: 'value',
-            name: '参与率',
+            name: '项目数',
             nameTextStyle: {
               color: '#fff'
             },
@@ -354,7 +355,7 @@ export default {
         ],
         series: [
           {
-            name: '参与率',
+            name: '项目数',
             type: 'bar',
             tooltip: {
               valueFormatter: function (value) {
@@ -448,6 +449,9 @@ export default {
 
 .bs_head_left_wrap {
   flex: 1;
+  span {
+    white-space: nowrap;
+  }
 }
 
 .bs_head_left_wrap .bs_hlw_img {
@@ -464,6 +468,7 @@ export default {
   font-weight: 700;
   margin-top: 3px;
   letter-spacing: 0.3px;
+  white-space: nowrap;
 }
 
 .bs_head_left .bs_head_left_time .bs_hlt_time {
@@ -560,9 +565,8 @@ export default {
 /*  Module Content Center  */
 .bs_content_center {
   .bs_content_center_top {
-    width: 600px;
+    width: 650px;
     height: 387px;
-    padding-top: 10px;
   }
 
   .bs_content_center_bottom {
