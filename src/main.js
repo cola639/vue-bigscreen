@@ -14,6 +14,7 @@ Vue.prototype.$echarts = echarts // global
 
 Vue.use(ElementUI)
 
+console.log('process.env.ENV', process.env.NODE_ENV)
 if (process.env.ENV === 'development') {
   const { mockXHR } = require('../mock')
   mockXHR()

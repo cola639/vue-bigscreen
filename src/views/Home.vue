@@ -124,7 +124,7 @@ import MatchTitle from '@/components/MatchTitle'
 import SpanWrap from '@/components/SpanWrap'
 import MonthCircle from '@/components/Circle'
 import { getVistCount } from '@/api/home'
-import { login } from '@/api/user'
+
 export default {
   name: 'Home',
   components: {
@@ -404,22 +404,7 @@ export default {
       }
     }
   },
-  mounted() {
-    getVistCount().then(res => {
-      console.log('res', JSON.stringify(res))
-    })
-
-    const params = {
-      name: '123',
-      passWord: '123'
-    }
-    login(params)
-      .then(res => {
-        console.log('🚀 ~ mounted ~ res', res)
-      })
-      .catch(() => {})
-      .finally(() => {})
-  },
+  mounted() {},
   methods: {}
 }
 </script>

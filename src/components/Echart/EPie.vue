@@ -2,6 +2,7 @@
   <div id="echart-line" :style="{ width: '100%', height: '100%' }"></div>
 </template>
 <script>
+import utils from '@/utils/index'
 export default {
   name: 'Eip',
   components: {},
@@ -37,7 +38,7 @@ export default {
         // },
         series: [
           {
-            name: 'Vist Count',
+            name: '访问统计',
             type: 'pie',
             radius: '80%',
             data: [
