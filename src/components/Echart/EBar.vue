@@ -27,7 +27,7 @@ export default {
     // initChart() {
     //   console.log('domId', this.domId)
     //   const chartDom = document.getElementById(this.domId)
-    //   const myChart = this.echarts.init(chartDom)
+    //   const myChart = this.$echarts.init(chartDom)
     //   let option
 
     // option = {
@@ -57,7 +57,7 @@ export default {
     initChart() {
       console.log('domId', this.domId)
       const chartDom = document.getElementById(this.domId)
-      const myChart = this.echarts.init(chartDom)
+      const myChart = this.$echarts.init(chartDom)
       myChart.setOption(this.option)
 
       // option = {
@@ -163,7 +163,7 @@ export default {
       //         }
       //       },
       //       itemStyle: {
-      //         color: this.echarts.graphic.LinearGradient(0, 0, 0, 1, [
+      //         color: this.$echarts.graphic.LinearGradient(0, 0, 0, 1, [
       //           { offset: 0, color: '#00C7FF' },
       //           { offset: 1, color: '#0095FF' }
       //         ]),

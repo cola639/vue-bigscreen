@@ -16,10 +16,9 @@ export function getInfo(token) {
   })
 }
 
-export function getPie(token) {
+export function getVistCount() {
   return request({
-    url: '/user/info',
-    method: 'get',
-    params: { token }
+    url: '/index/getYssVisitCount',
+    method: 'get'
   })
 }

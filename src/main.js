@@ -10,9 +10,14 @@ import '@/styles/index.scss'
 import 'element-ui/lib/theme-chalk/index.css'
 
 Vue.config.productionTip = false
-Vue.prototype.echarts = echarts
+Vue.prototype.$echarts = echarts // global
 
 Vue.use(ElementUI)
+
+if (process.env.ENV === 'development') {
+  const { mockXHR } = require('../mock')
+  mockXHR()
+}
 
 new Vue({
   router,

@@ -15,7 +15,7 @@ export default {
   props: { domId: { type: String, required: true } },
   created() {},
   mounted() {
-    this.echarts.registerMap('js', guangDong)
+    this.$echarts.registerMap('js', guangDong)
     this.noHoverInit()
   },
   beforeDestroy() {},
@@ -236,7 +236,7 @@ export default {
       }
 
       const chartDom = document.getElementById(this.domId)
-      this.myChart = this.echarts.init(chartDom)
+      this.myChart = this.$echarts.init(chartDom)
       this.myChart.setOption(option)
 
       let cityIndex = 0

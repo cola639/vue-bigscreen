@@ -19,7 +19,7 @@ export default {
   methods: {
     initChart() {
       const chartDom = document.getElementById('echart-line')
-      const myChart = this.echarts.init(chartDom)
+      const myChart = this.$echarts.init(chartDom)
       let option
 
       option = {

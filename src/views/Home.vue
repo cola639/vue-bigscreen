@@ -123,7 +123,8 @@ import MatchItem from '@/components/MatchItem'
 import MatchTitle from '@/components/MatchTitle'
 import SpanWrap from '@/components/SpanWrap'
 import MonthCircle from '@/components/Circle'
-// import {  } from "@/api/home";
+import { getVistCount } from '@/api/home'
+import { login } from '@/api/user'
 export default {
   name: 'Home',
   components: {
@@ -363,7 +364,7 @@ export default {
               }
             },
             itemStyle: {
-              color: this.echarts.graphic.LinearGradient(0, 0, 0, 1, [
+              color: this.$echarts.graphic.LinearGradient(0, 0, 0, 1, [
                 { offset: 0, color: '#00C7FF' },
                 { offset: 1, color: '#0095FF' }
               ]),
@@ -403,7 +404,22 @@ export default {
       }
     }
   },
-  mounted() {},
+  mounted() {
+    getVistCount().then(res => {
+      console.log('res', JSON.stringify(res))
+    })
+
+    const params = {
+      name: '123',
+      passWord: '123'
+    }
+    login(params)
+      .then(res => {
+        console.log('🚀 ~ mounted ~ res', res)
+      })
+      .catch(() => {})
+      .finally(() => {})
+  },
   methods: {}
 }
 </script>
