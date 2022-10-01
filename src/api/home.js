@@ -22,3 +22,17 @@ export function getVistCount() {
     method: 'get'
   })
 }
+
+export function getAnalysisData(type) {
+  // return request({
+  //   url: '/index/analysisBar',
+  //   method: 'get',
+  //   type
+  // })
+
+  return request({
+    url: '/index/getJszxData',
+    method: 'get',
+    params: { type }
+  })
+}

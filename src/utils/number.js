@@ -8,5 +8,7 @@ export function formatZero(num, len) {
   if (String(num).length > len) {
     return num
   }
-  return (Array(len).join(0) + num).slice(-len)
+  const res = (Array(len).join(0) + num).slice(-len)
+  console.log('🚀 ~ formatZero ~ res', res.split(''))
+  return res.split('')
 }

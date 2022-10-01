@@ -27,23 +27,23 @@
           <div class="rc bs_clt_info">
             <span class="inline-block bs_clt_info_item">
               访问人数
-              <span-wrap :text="['2', '1', '3', '7', '5']"></span-wrap>
+              <span-wrap :text="visitData['visit']"></span-wrap>
               人
             </span>
             <span class="inline-block bs_clt_info_item">
               健身咨询
-              <span-wrap :text="['2', '1', '3', '7', '5']"></span-wrap>
+              <span-wrap :text="visitData['jszx']"></span-wrap>
               篇
             </span>
             <span class="inline-block bs_clt_info_item">
               赛事
-              <span-wrap :text="['2', '1', '3', '7', '5']"></span-wrap>
+              <span-wrap :text="visitData['ss']"></span-wrap>
               场
             </span>
           </div>
 
           <div class="rc bs_clt_pipe">
-            <e-pie></e-pie>
+            <e-pie :visitData="visitData"></e-pie>
           </div>
         </div>
 
@@ -53,7 +53,7 @@
           <div class="rc bs_clb_info">
             <span class="inline-block bs_clb_info_item">
               点击总量
-              <span-wrap :text="['2', '1', '3', '7', '5']"></span-wrap>
+              <span-wrap :text="analysisData['total']"></span-wrap>
               次
             </span>
           </div>
@@ -63,7 +63,7 @@
           </div>
 
           <div class="bs_clb_echart">
-            <e-bar domId="bs_clb_bar" :option="this.analysisBar" />
+            <e-bar :type="1" domId="bs_clb_bar" :data="analysisData" />
           </div>
         </div>
       </div>
@@ -75,8 +75,7 @@
         </div>
         <div class="img-center mw bs_content_center_bottom">
           <match-title text="赛事统计" />
-
-          <e-bar domId="bs_content_center_bottom" :option="this.matchBar" />
+          <e-bar :type="1" domId="bs_content_center_bottom" :data="analysisData" />
         </div>
       </div>
 
@@ -123,7 +122,7 @@ import MatchItem from '@/components/MatchItem'
 import MatchTitle from '@/components/MatchTitle'
 import SpanWrap from '@/components/SpanWrap'
 import MonthCircle from '@/components/Circle'
-import { getVistCount } from '@/api/home'
+import { getVistCount, getAnalysisData } from '@/api/home'
 
 export default {
   name: 'Home',
@@ -401,10 +400,38 @@ export default {
             data: [80, 60, 40, 60, 80, 60, 40]
           }
         ]
-      }
+      },
+
+      visitData: {},
+
+      analysisData: {}
     }
   },
-  mounted() {},
+  mounted() {
+    getVistCount().then(res => {
+      console.log('res', JSON.stringify(res))
+      this.visitData = res
+    })
+
+    const type = 'day'
+    getAnalysisData(type)
+      .then(res => {
+        const { result } = res.data
+        const { total } = res.data
+        const dateArr = []
+        const dataArr = []
+
+        result.forEach(item => {
+          dateArr.push(item.date)
+          dataArr.push(item.num)
+        })
+
+        this.analysisData = { dateArr, dataArr, total }
+        console.log('🚀 ~ mounted ~ this.analysisData', this.analysisData)
+      })
+      .catch(() => {})
+      .finally(() => {})
+  },
   methods: {}
 }
 </script>
@@ -522,7 +549,7 @@ export default {
 
 .bs_clt_info,
 .bs_clb_info {
-  margin-top: 15px;
+  margin-top: 8px;
   width: 220px;
   text-align: right;
 }
@@ -538,7 +565,8 @@ export default {
 
 .bs_content_left_top .bs_clt_pipe {
   width: 100%;
-  margin-top: 15px;
+  height: 120px;
+  margin-top: 5px;
 }
 
 .bs_clb_info .bs_clb_info_item {

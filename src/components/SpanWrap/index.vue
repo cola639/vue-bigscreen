@@ -2,7 +2,7 @@
   <span class="inline-block">
     <span
       class="inline-block"
-      v-for="(item, index) in text"
+      v-for="(item, index) in formatText"
       :key="index"
       :style="{
         width: '22px',
@@ -21,6 +21,7 @@
   </span>
 </template>
 <script>
+import { formatZero } from '@/utils/number'
 export default {
   name: 'SpanWrap',
   components: {},
@@ -28,12 +29,16 @@ export default {
     return {}
   },
   props: {
-    text: { type: Array, required: true }
+    text: { type: Number }
   },
   created() {},
   mounted() {},
   beforeDestroy() {},
-  computed: {},
+  computed: {
+    formatText() {
+      return formatZero(this.text, 5)
+    }
+  },
   watch: {},
   methods: {}
 }
