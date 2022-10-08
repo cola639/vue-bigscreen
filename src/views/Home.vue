@@ -3,15 +3,16 @@
     <!-- Module Head -->
     <div class="flex-start bs_head">
       <div class="inline-block bs_head_left">
-        <div class="flex-start bs_head_left_wrap">
+        <!-- <div class="flex-start bs_head_left_wrap">
           <div class="inline-block img-center bs_hlw_img"></div>
 
           <span> 天气：晴天 19-29­°C </span>
-        </div>
+        </div> -->
 
         <div class="inline-block bs_head_left_time">
-          <span class="bs_hlt_date"> 2022年9月23日 </span>
-          <span class="bs_hlt_time"> 01:21:23 </span>
+          <span class="bs_hlt_date"> {{ time }} </span>
+          <!-- <span class="bs_hlt_date"> 2022年9月23日 </span>
+          <span class="bs_hlt_time"> 01:21:23 </span> -->
         </div>
       </div>
       <div class="inline-block bs_head_center">省体育局训科医公共体育服务数据分析</div>
@@ -59,7 +60,7 @@
           </div>
 
           <div class="ib rc bs_clb_list">
-            <choose-item :checkList="['按周', '按月', '按年']" />
+            <choose-item ref="chooseItem" :checkList="checkList" :chooseFun="handleChooseDate" />
           </div>
 
           <div class="bs_clb_echart">
@@ -71,11 +72,11 @@
       <!-- Module Content Center-->
       <div class="bs_content_center">
         <div class="bs_content_center_top">
-          <e-map domId="bs_content_center_top" />
+          <e-map domId="bs_content_center_top" :mapData="mapData" />
         </div>
         <div class="img-center mw bs_content_center_bottom">
-          <match-title text="赛事统计" />
-          <e-bar :type="1" domId="bs_content_center_bottom" :data="analysisData" />
+          <match-title text="赛事统计" :checkList="typeList" :chooseFun="handleChooseType" />
+          <e-bar :type="2" domId="bs_content_center_bottom" :data="eventsData" />
         </div>
       </div>
 
@@ -89,7 +90,7 @@
               v-for="(item, index) in matchList"
               :key="index"
               :name="item.name"
-              :number="item.number"
+              :number="item.num"
               :width="item.width"
               :rank="index"
             ></match-item>
@@ -100,11 +101,11 @@
           <content-title text="月度云服务热词" />
 
           <div class="rc bs_crb_info">
-            <month-circle type="orange" />
-            <month-circle type="blue" />
+            <month-circle v-for="(item, index) in hotWords" :key="index" :hotWord="item" />
+            <!-- <month-circle type="blue" />
             <month-circle type="purple" />
             <month-circle type="yellow" />
-            <month-circle type="green" />
+            <month-circle type="green" /> -->
           </div>
         </div>
       </div>
@@ -122,7 +123,14 @@ import MatchItem from '@/components/MatchItem'
 import MatchTitle from '@/components/MatchTitle'
 import SpanWrap from '@/components/SpanWrap'
 import MonthCircle from '@/components/Circle'
-import { getVistCount, getAnalysisData } from '@/api/home'
+import {
+  getVistCount,
+  getAnalysisData,
+  getHotEvents,
+  getEventsCount,
+  getRankCount,
+  getHotWords
+} from '@/api/home'
 
 export default {
   name: 'Home',
@@ -139,300 +147,153 @@ export default {
   },
   data() {
     return {
-      matchList: [
-        {
-          name: '国际马拉松',
-          width: '50%',
-          number: 1000
-        },
-        {
-          name: '国际马拉松',
-          width: '30%',
-          number: 1000
-        },
-        {
-          name: '花样游泳锦标赛',
-          width: '100%',
-          number: 1000
-        },
-        {
-          name: '国际马拉松',
-          width: '60%',
-          number: 1000
-        },
-        {
-          name: '国际马拉松',
-          width: '15%',
-          number: 1000
-        },
-        {
-          name: '国际马拉松',
-          width: '10%',
-          number: 1000
-        },
-        {
-          name: '国际马拉松',
-          width: '25%',
-          number: 1000
-        }
+      checkList: [
+        { name: '按周', value: 'day' },
+        { name: '按月', value: 'month' },
+        { name: '按年', value: 'year' }
       ],
 
-      analysisBar: {
-        tooltip: {
-          trigger: 'axis',
-          axisPointer: {
-            type: 'cross',
-            crossStyle: {
-              color: '#3851AD'
-            }
-          }
-        },
+      typeList: [
+        { name: '区域', value: 'area' },
+        { name: '运动项', value: 'sport' }
+      ],
 
-        xAxis: {
-          type: 'category',
-          data: ['10-21', '10-22', '10-23', '10-24', '10-25', '10-26'],
-          boundaryGap: false, // 距离
-
-          axisPointer: {
-            type: 'shadow'
-          },
-          axisLabel: {
-            show: true,
-            textStyle: {
-              color: '#fff', //更改坐标轴文字颜色
-              fontSize: 12 //更改坐标轴文字大小
-            }
-          }
-        },
-        yAxis: {
-          type: 'value',
-          min: 0,
-          // max: 90,
-          interval: 20,
-          splitLine: {
-            show: true,
-            // yAxis 穿透线
-            lineStyle: {
-              color: '#0095ff'
-            }
-          },
-          axisLabel: {
-            show: true,
-            textStyle: {
-              color: '#fff', //更改坐标轴文字颜色
-              fontSize: 12 //更改坐标轴文字大小
-            },
-            formatter: '{value} '
-          }
-        },
-        series: [
-          {
-            data: [20, 60, 50, 40, 35, 50, 20],
-            type: 'line',
-            areaStyle: {
-              color: 'rgb(24,41,76)'
-            },
-
-            tooltip: {
-              valueFormatter: function (value) {
-                return ' 点击量 ' + value
-              }
-            },
-            // symbol: 'circle',
-            symbolSize: 7,
-            smooth: true,
-            itemStyle: {
-              normal: {
-                lineStyle: {
-                  color: '#0095FF',
-                  width: 2
-                }
-              }
-            }
-          }
-        ]
-      },
-
-      matchBar: {
-        tooltip: {
-          trigger: 'axis',
-          axisPointer: {
-            type: 'cross',
-            crossStyle: {
-              color: '#3851AD'
-            }
-          }
-        },
-        toolbox: {
-          feature: {
-            // dataView: { show: true, readOnly: false },
-            // magicType: { show: true, type: ['line', 'bar'] },
-            // restore: { show: true },
-            // saveAsImage: { show: true }
-          }
-        },
-        dataZoom: {
-          show: true,
-          type: 'inside',
-          realtime: true,
-          height: 10,
-          start: 0,
-          end: 100,
-          textStyle: true
-        },
-        legend: {
-          // data: ['Evaporation', 'Precipitation', 'Temperature']
-          data: ['项目数', '点击率'],
-          align: 'left',
-          textStyle: {
-            color: '#fff'
-          },
-          itemWidth: 10,
-          itemHeight: 10,
-          itemGap: 35
-        },
-        xAxis: [
-          {
-            type: 'category',
-            data: ['广州', '深圳', '佛山', '东莞', '汕头', '清远', '肇庆'],
-            axisPointer: {
-              type: 'shadow'
-            },
-            axisLabel: {
-              show: true,
-              textStyle: {
-                color: '#fff', //更改坐标轴文字颜色
-                fontSize: 14 //更改坐标轴文字大小
-              }
-            }
-          }
-        ],
-        yAxis: [
-          {
-            type: 'value',
-            name: '项目数',
-            nameTextStyle: {
-              color: '#fff'
-            },
-            min: 0,
-            max: 100,
-            interval: 20,
-            axisLabel: {
-              show: true,
-              textStyle: {
-                color: '#fff', //更改坐标轴文字颜色
-                fontSize: 12 //更改坐标轴文字大小
-              },
-              formatter: '{value} '
-            }
-          },
-          {
-            type: 'value',
-            name: '点击率',
-            nameTextStyle: {
-              color: '#fff'
-            },
-            min: 0,
-            max: 100,
-            interval: 20,
-
-            axisLabel: {
-              show: true,
-              textStyle: {
-                color: '#fff', //更改坐标轴文字颜色
-                fontSize: 12 //更改坐标轴文字大小
-              },
-              formatter: '{value} '
-            },
-            splitLine: {
-              show: true,
-              // yAxis 穿透线
-              lineStyle: {
-                color: '#0095ff'
-              }
-            }
-          }
-        ],
-        series: [
-          {
-            name: '项目数',
-            type: 'bar',
-            tooltip: {
-              valueFormatter: function (value) {
-                return value + ' %'
-              }
-            },
-            itemStyle: {
-              color: this.$echarts.graphic.LinearGradient(0, 0, 0, 1, [
-                { offset: 0, color: '#00C7FF' },
-                { offset: 1, color: '#0095FF' }
-              ]),
-              barBorderRadius: [6, 6, 0, 0] // （顺时针左上，右上，右下，左下）
-            },
-            barWidth: 15,
-            data: [80, 60, 40, 60, 80, 60, 40]
-          },
-          {
-            name: '点击率',
-            type: 'line',
-            yAxisIndex: 1,
-            tooltip: {
-              valueFormatter: function (value) {
-                return value + ' %'
-              }
-            },
-            symbol: 'none',
-            itemStyle: {
-              normal: {
-                lineStyle: {
-                  color: '#F8C700',
-                  width: 3
-                }
-              }
-              // 0.1的线条是非常细的了
-              // normal: {
-              //   lineStyle: {
-
-              //   }
-              // }
-            },
-            barWidth: 2,
-            data: [80, 60, 40, 60, 80, 60, 40]
-          }
-        ]
-      },
-
+      time: '',
+      timer: null,
       visitData: {},
-
-      analysisData: {}
+      analysisData: {},
+      eventsData: {},
+      mapData: [],
+      matchList: [],
+      hotWords: []
     }
   },
   mounted() {
-    getVistCount().then(res => {
-      console.log('res', JSON.stringify(res))
-      this.visitData = res
-    })
-
-    const type = 'day'
-    getAnalysisData(type)
-      .then(res => {
-        const { result } = res.data
-        const { total } = res.data
-        const dateArr = []
-        const dataArr = []
-
-        result.forEach(item => {
-          dateArr.push(item.date)
-          dataArr.push(item.num)
-        })
-
-        this.analysisData = { dateArr, dataArr, total }
-        console.log('🚀 ~ mounted ~ this.analysisData', this.analysisData)
-      })
-      .catch(() => {})
-      .finally(() => {})
+    this.IntervalDate()
+    this.getVistCount()
+    this.getAnalysisData()
+    this.getEventsCount()
+    this.getHotEvents()
+    this.getRankCount()
+    this.getHotWords()
   },
-  methods: {}
+  beforeDestroy() {
+    this.timer ? clearInterval(this.timer) : null
+  },
+  methods: {
+    getVistCount() {
+      getVistCount().then(res => {
+        console.log('res', JSON.stringify(res))
+        this.visitData = res
+      })
+    },
+
+    getAnalysisData(type = 'day') {
+      getAnalysisData(type)
+        .then(res => {
+          const { result } = res.data
+          const { total } = res.data
+          const dateArr = []
+          const dataArr = []
+
+          result.forEach(item => {
+            dateArr.push(item.date)
+            dataArr.push(item.num)
+          })
+
+          this.analysisData = { dateArr, dataArr, total }
+          console.log('🚀 ~ mounted ~ this.analysisData', this.analysisData)
+        })
+        .catch(() => {})
+        .finally(() => {})
+    },
+
+    getEventsCount(type = 'area') {
+      getEventsCount(type)
+        .then(res => {
+          const { data } = res
+
+          const dataArr = []
+          const ratioArr = []
+
+          data.forEach(item => {
+            dataArr.push(item.cityNum)
+            ratioArr.push(item.ratio)
+          })
+
+          this.eventsData = {
+            dataArr,
+            ratioArr
+          }
+        })
+        .catch(() => {})
+        .finally(() => {})
+    },
+
+    getHotEvents() {
+      getHotEvents()
+        .then(res => {
+          console.log('hotEvents', res)
+          const { data } = res
+          this.mapData = data
+        })
+        .catch(() => {})
+        .finally(() => {})
+    },
+
+    getRankCount() {
+      getRankCount()
+        .then(res => {
+          const { data } = res
+
+          let maxValue = 0
+          data.forEach(item => {
+            if (item.num > maxValue) maxValue = item.num
+          })
+
+          data.forEach(item => {
+            item.width = `${(item.num / maxValue) * 100}%`
+          })
+          console.log('🚀 ~ getRankCount ~ data', data)
+
+          this.matchList = data
+        })
+        .catch(() => {})
+        .finally(() => {})
+    },
+
+    getHotWords() {
+      const hotWordColors = ['orange', 'blue', 'purple', 'yellow', 'green']
+      getHotWords()
+        .then(res => {
+          const { data } = res
+          data.forEach((item, index) => {
+            item.type = hotWordColors[index]
+          })
+          console.log('🚀 ~ data.forEach ~ data', data)
+
+          this.hotWords = data
+        })
+        .catch(() => {})
+        .finally(() => {})
+    },
+
+    IntervalDate() {
+      this.timer = setInterval(() => {
+        this.time = this.$moment().format('YYYY年MM月DD日 dddd HH:mm:ss')
+      }, 1000)
+    },
+
+    handleChooseDate(index) {
+      const type = this.checkList[index]['value']
+      this.getAnalysisData(type)
+    },
+
+    handleChooseType(index) {
+      const type = this.typeList[index]['value']
+      this.getEventsCount(type)
+    }
+  }
 }
 </script>
 
@@ -497,6 +358,7 @@ export default {
   margin-top: 3px;
   letter-spacing: 0.3px;
   white-space: nowrap;
+  padding: 10px;
 }
 
 .bs_head_left .bs_head_left_time .bs_hlt_time {

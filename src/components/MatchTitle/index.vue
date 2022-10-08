@@ -3,17 +3,17 @@
     <div class="img-center head_left"></div>
     <span class="ib">{{ text }}</span>
     <div class="head_img"></div>
-    <div class="head_choose"><choose-item :checkList="['区域', '运动项', '级别']" /></div>
-    <el-select v-model="value" clearable placeholder="选择赛事名称" size="mini" class="head_select">
+    <div class="head_choose"><choose-item :checkList="checkList" :chooseFun="chooseFun" /></div>
+    <!-- <el-select v-model="value" clearable placeholder="选择赛事名称" size="mini" class="head_select">
       <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
       </el-option>
-    </el-select>
+    </el-select> -->
   </div>
 </template>
 <script>
 import ChooseItem from '../ChooseItem'
 export default {
-  name: 'ContentTitle',
+  name: 'MatchTitle',
   components: { ChooseItem },
   data() {
     return {
@@ -43,7 +43,9 @@ export default {
     }
   },
   props: {
-    text: { type: String, required: true }
+    text: { type: String, required: true },
+    checkList: { type: Array, required: true },
+    chooseFun: { type: Function, required: true }
   },
   created() {},
   mounted() {},
@@ -82,7 +84,7 @@ export default {
 }
 
 .head_choose {
-  margin-left: 14px;
+  margin-left: 230px;
 }
 
 .el-dropdown-link {

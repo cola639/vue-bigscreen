@@ -91,6 +91,7 @@ export default {
     font-weight: 400;
     font-size: 14px;
     padding: 1px 0;
+    margin-left: 5px;
   }
 
   .matchItem_progress {

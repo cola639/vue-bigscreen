@@ -6,7 +6,7 @@
       :key="index"
       @click="onCheck(index)"
     >
-      {{ item }}
+      {{ item.name }}
     </div>
   </div>
 </template>
@@ -20,7 +20,8 @@ export default {
     }
   },
   props: {
-    checkList: { type: Array, required: true }
+    checkList: { type: Array, required: true },
+    chooseFun: { type: Function, required: true }
   },
   created() {},
   mounted() {},
@@ -29,7 +30,10 @@ export default {
   watch: {},
   methods: {
     onCheck(index) {
+      console.log('index', index)
       this.currentIndex = index
+
+      this.chooseFun(index)
     }
   }
 }

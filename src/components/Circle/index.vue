@@ -1,8 +1,8 @@
 <template>
   <!-- <div class="flex-column monthCircle"> -->
-  <div :class="[type ? `monthCircle-${type}` : 'monthCircle', 'flex-column']">
-    <span>220</span>
-    <span>健身指引</span>
+  <div :class="[!hotWord.length ? `monthCircle-${hotWord.type}` : 'monthCircle', 'flex-column']">
+    <span>{{ hotWord.num }}</span>
+    <span>{{ hotWord.searchName }}</span>
   </div>
 </template>
 <script>
@@ -13,7 +13,7 @@ export default {
     return {}
   },
   props: {
-    type: { type: String, required: true }
+    hotWord: { type: Object, required: true }
   },
   created() {},
   mounted() {},
@@ -77,7 +77,7 @@ export default {
   span {
     color: #ffffff;
     font-family: AlibabaPuHuiTiB;
-    font-size: 18px;
+    font-size: 16px;
     font-weight: 700;
     height: 26px;
     letter-spacing: 0;
@@ -119,7 +119,7 @@ export default {
   span {
     color: #ffffff;
     font-family: AlibabaPuHuiTiB;
-    font-size: 18px;
+    font-size: 15px;
     font-weight: 700;
     height: 26px;
     letter-spacing: 0;

@@ -12,15 +12,19 @@ export default {
       timer: null
     }
   },
-  props: { domId: { type: String, required: true } },
+  props: { domId: { type: String, required: true }, mapData: { type: Array, required: true } },
   created() {},
   mounted() {
     this.$echarts.registerMap('js', guangDong)
-    this.noHoverInit()
   },
   beforeDestroy() {},
   computed: {},
-  watch: {},
+  watch: {
+    mapData(newV, oldV) {
+      this.mapData = newV
+      this.noHoverInit()
+    }
+  },
   methods: {
     noHoverInit() {
       let center = {
@@ -47,29 +51,30 @@ export default {
         韶关市: [113.594461107, 24.8029603119]
       }
 
-      let cityData = [
-        { name: '广州市', value: 390 },
-        { name: '东莞市', value: 158 },
-        { name: '中山市', value: 252 },
-        { name: '云浮市', value: 99 },
-        { name: '佛山市', value: 189 },
-        { name: '惠州市', value: 52 },
-        { name: '揭阳市', value: 158 },
-        { name: '梅州市', value: 152 },
-        { name: '汕头市', value: 189 },
-        { name: '汕尾市', value: 160 },
-        { name: '江门市', value: 80 },
-        { name: '河源市', value: 180 },
-        { name: '深圳市', value: 190 },
-        { name: '湛江市', value: 290 },
-        { name: '潮州市', value: 190 },
-        { name: '珠海市', value: 190 },
-        { name: '肇庆市', value: 290 },
-        { name: '清远市', value: 290 },
-        { name: '茂名市', value: 190 },
-        { name: '阳江市', value: 190 },
-        { name: '韶关市', value: 290 }
-      ]
+      let cityData = this.mapData
+      // let cityData = [
+      //   { name: '广州市', num: 390 },
+      //   { name: '东莞市', num: 158 },
+      //   { name: '中山市', num: 252 },
+      //   { name: '云浮市', num: 99 },
+      //   { name: '佛山市', num: 189 },
+      //   { name: '惠州市', num: 52 },
+      //   { name: '揭阳市', num: 158 },
+      //   { name: '梅州市', num: 152 },
+      //   { name: '汕头市', num: 189 },
+      //   { name: '汕尾市', num: 160 },
+      //   { name: '江门市', num: 80 },
+      //   { name: '河源市', num: 180 },
+      //   { name: '深圳市', num: 190 },
+      //   { name: '湛江市', num: 290 },
+      //   { name: '潮州市', num: 190 },
+      //   { name: '珠海市', num: 190 },
+      //   { name: '肇庆市', num: 290 },
+      //   { name: '清远市', num: 290 },
+      //   { name: '茂名市', num: 190 },
+      //   { name: '阳江市', num: 190 },
+      //   { name: '韶关市', num: 290 }
+      // ]
       let option = null
 
       option = {
@@ -133,16 +138,18 @@ export default {
               normal: {
                 show: true,
                 formatter: function (params) {
-                  // console.log('🚀 ~ params', JSON.stringify(params))
                   const cityName = params.data.city
-                  const index = cityData.findIndex(item => item.name === cityName)
+
+                  const index = cityData.findIndex(item => {
+                    return item.name === cityName
+                  })
 
                   return (
                     '{fline|地点：' +
                     cityName +
                     '}\n{tline|' +
                     '数量：' +
-                    cityData[index]['value'] +
+                    cityData[index]['num'] +
                     '}'
                   )
                 },
@@ -188,13 +195,21 @@ export default {
             },
             // Each city style
             itemStyle: {
+              // normal: {
+              //   areaColor: 'transparent',
+              //   borderColor: '#0095ff',
+              //   borderWidth: 2,
+              //   shadowColor: 'rgba(63, 218, 255, 0.5)',
+              //   shadowBlur: 30
+              // },
               normal: {
-                areaColor: 'transparent',
-                borderColor: '#0095ff',
-                borderWidth: 2,
-                shadowColor: 'rgba(63, 218, 255, 0.5)',
+                areaColor: 'rgb(11,72,183)',
+                // borderColor: '#ccc',
+                borderWidth: 1,
+                // shadowColor: 'rgba(63, 218, 255, 0.5)',
                 shadowBlur: 30
               },
+
               emphasis: {
                 areaColor: '#2B91B7'
               }
@@ -259,7 +274,7 @@ export default {
 
       this.myChart.on('mouseover', params => {
         this.timer ? clearInterval(this.timer) : null
-        const index = cityData.findIndex(item => item.name === params.name)
+        // const index = cityData.findIndex(item => item.name === params.name)
         let coordCity = params.name
         let coord = center[coordCity]
         option.series[0].data = [
@@ -273,7 +288,7 @@ export default {
 
       this.myChart.on('click', params => {
         this.timer ? clearInterval(this.timer) : null
-        const index = cityData.findIndex(item => item.name === params.name)
+        // const index = cityData.findIndex(item => item.name === params.name)
         let coordCity = params.name
         let coord = center[coordCity]
         option.series[0].data = [
@@ -285,7 +300,7 @@ export default {
         this.myChart.setOption(option, true)
       })
 
-      this.myChart.on('mouseout', params => {
+      this.myChart.on('mouseout', () => {
         this.timer = setInterval(() => {
           let coordCity = Object.keys(center)[cityIndex]
           let coord = center[coordCity]

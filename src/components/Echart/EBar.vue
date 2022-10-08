@@ -117,8 +117,9 @@ export default {
       console.log('domId', this.domId)
       const chartDom = document.getElementById(this.domId)
       const myChart = this.$echarts.init(chartDom)
-      myChart.setOption(this.option)
-
+      const { dataArr, ratioArr } = this.data
+      console.log('🚀 ~ initEventsChart ~ ratioArr', ratioArr)
+      console.log('🚀 ~ initEventsChart ~ dataArr', dataArr)
       let option
 
       option = {
@@ -227,7 +228,7 @@ export default {
             type: 'bar',
             tooltip: {
               valueFormatter: function (value) {
-                return value + ' %'
+                return value
               }
             },
             itemStyle: {
@@ -238,7 +239,7 @@ export default {
               barBorderRadius: [6, 6, 0, 0] // （顺时针左上，右上，右下，左下）
             },
             barWidth: 15,
-            data: [80, 60, 40, 60, 80, 60, 40]
+            data: dataArr
           },
           {
             name: '点击率',
@@ -265,7 +266,7 @@ export default {
               // }
             },
             barWidth: 2,
-            data: [80, 60, 40, 60, 80, 60, 40]
+            data: ratioArr
           }
         ]
       }
