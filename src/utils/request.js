@@ -44,11 +44,9 @@ service.interceptors.response.use(
 
     // if the custom code is not 200, it is judged as an error.
     if (res.code !== 200) {
-      // Toast({
-      //   message: res.msg || 'Error',
-      //   type: 'fail',
-      //   duration: 2 * 1000
-      // })
+      if (res.code === 0) {
+        return res.data
+      }
 
       // 50008: Illegal token; 50012: Other clients logged in; 50014: Token expired;
       if (res.code === 401) {

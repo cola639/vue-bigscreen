@@ -21,6 +21,8 @@ export default {
   computed: {},
   watch: {
     mapData(newV, oldV) {
+      if (newV && newV.length) console.log('🚀 ~ mapData ~ newV', newV, oldV)
+
       this.mapData = newV
       this.noHoverInit()
     }
@@ -203,11 +205,11 @@ export default {
               //   shadowBlur: 30
               // },
               normal: {
-                areaColor: 'rgb(11,72,183)',
+                areaColor: 'rgb(11,76,182)',
                 // borderColor: '#ccc',
                 borderWidth: 1,
                 // shadowColor: 'rgba(63, 218, 255, 0.5)',
-                shadowBlur: 30
+                shadowBlur: 20
               },
 
               emphasis: {

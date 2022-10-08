@@ -64,7 +64,7 @@ export default {
           type: 'value',
           min: 0,
           // max: 90,
-          interval: 20,
+          // interval: 20,
           splitLine: {
             show: true,
             // yAxis 穿透线
@@ -75,8 +75,8 @@ export default {
           axisLabel: {
             show: true,
             textStyle: {
-              color: '#fff', //更改坐标轴文字颜色
-              fontSize: 12 //更改坐标轴文字大小
+              color: '#fff', // 更改坐标轴文字颜色
+              fontSize: 10 // 更改坐标轴文字大小
             },
             formatter: '{value} '
           }
@@ -117,7 +117,7 @@ export default {
       console.log('domId', this.domId)
       const chartDom = document.getElementById(this.domId)
       const myChart = this.$echarts.init(chartDom)
-      const { dataArr, ratioArr } = this.data
+      const { dataArr, ratioArr, labelArr } = this.data
       console.log('🚀 ~ initEventsChart ~ ratioArr', ratioArr)
       console.log('🚀 ~ initEventsChart ~ dataArr', dataArr)
       let option
@@ -146,7 +146,7 @@ export default {
           realtime: true,
           height: 10,
           start: 0,
-          end: 100,
+          end: 30,
           textStyle: true
         },
         legend: {
@@ -163,7 +163,7 @@ export default {
         xAxis: [
           {
             type: 'category',
-            data: ['广州', '深圳', '佛山', '东莞', '汕头', '清远', '肇庆'],
+            data: labelArr,
             axisPointer: {
               type: 'shadow'
             },

@@ -191,8 +191,7 @@ export default {
     getAnalysisData(type = 'day') {
       getAnalysisData(type)
         .then(res => {
-          const { result } = res.data
-          const { total } = res.data
+          const { result, total } = res
           const dateArr = []
           const dataArr = []
 
@@ -211,20 +210,22 @@ export default {
     getEventsCount(type = 'area') {
       getEventsCount(type)
         .then(res => {
-          const { data } = res
-
           const dataArr = []
           const ratioArr = []
+          const labelArr = []
 
-          data.forEach(item => {
+          res.forEach(item => {
             dataArr.push(item.cityNum)
             ratioArr.push(item.ratio)
+            labelArr.push(item.name)
           })
 
           this.eventsData = {
             dataArr,
-            ratioArr
+            ratioArr,
+            labelArr
           }
+          console.log('🚀 ~ getEventsCount ~ eventsData', this.eventsData)
         })
         .catch(() => {})
         .finally(() => {})
@@ -233,9 +234,7 @@ export default {
     getHotEvents() {
       getHotEvents()
         .then(res => {
-          console.log('hotEvents', res)
-          const { data } = res
-          this.mapData = data
+          this.mapData = res
         })
         .catch(() => {})
         .finally(() => {})
@@ -244,19 +243,17 @@ export default {
     getRankCount() {
       getRankCount()
         .then(res => {
-          const { data } = res
-
           let maxValue = 0
-          data.forEach(item => {
+          res.forEach(item => {
             if (item.num > maxValue) maxValue = item.num
           })
 
-          data.forEach(item => {
+          res.forEach(item => {
             item.width = `${(item.num / maxValue) * 100}%`
           })
-          console.log('🚀 ~ getRankCount ~ data', data)
+          console.log('🚀 ~ getRankCount ~ data', res)
 
-          this.matchList = data
+          this.matchList = res
         })
         .catch(() => {})
         .finally(() => {})
@@ -266,13 +263,12 @@ export default {
       const hotWordColors = ['orange', 'blue', 'purple', 'yellow', 'green']
       getHotWords()
         .then(res => {
-          const { data } = res
-          data.forEach((item, index) => {
+          res.forEach((item, index) => {
             item.type = hotWordColors[index]
           })
-          console.log('🚀 ~ data.forEach ~ data', data)
+          console.log('🚀 ~ res.forEach ~ res', res)
 
-          this.hotWords = data
+          this.hotWords = res
         })
         .catch(() => {})
         .finally(() => {})
