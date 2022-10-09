@@ -20,7 +20,7 @@ module.exports = {
         target: 'https://test.sports.fabaogd.com/',
         changeOrigin: true,
         pathRewrite: {
-          '^/dev-api': ''
+          '^/dev-api': '' // clear prefix
         }
       }
     }

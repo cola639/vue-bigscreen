@@ -102,10 +102,6 @@
 
           <div class="rc bs_crb_info">
             <month-circle v-for="(item, index) in hotWords" :key="index" :hotWord="item" />
-            <!-- <month-circle type="blue" />
-            <month-circle type="purple" />
-            <month-circle type="yellow" />
-            <month-circle type="green" /> -->
           </div>
         </div>
       </div>
@@ -169,13 +165,13 @@ export default {
     }
   },
   mounted() {
-    this.IntervalDate()
     this.getVistCount()
     this.getAnalysisData()
     this.getEventsCount()
     this.getHotEvents()
     this.getRankCount()
     this.getHotWords()
+    this.IntervalDate()
   },
   beforeDestroy() {
     this.timer ? clearInterval(this.timer) : null
@@ -197,6 +193,7 @@ export default {
 
           result.forEach(item => {
             dateArr.push(item.date)
+
             dataArr.push(item.num)
           })
 
