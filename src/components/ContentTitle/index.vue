@@ -48,5 +48,6 @@ export default {
   height: 18px;
   background-image: url('../../assets/image/title.webp');
   margin-left: 16px;
+  background-repeat: no-repeat;
 }
 </style>

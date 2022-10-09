@@ -2,11 +2,14 @@
   <div :id="domId" :style="{ width: '100%', height: '100%' }"></div>
 </template>
 <script>
+import { debounce } from '@/utils/number'
 export default {
   name: 'EBar',
   components: {},
   data() {
-    return {}
+    return {
+      timeTicket: null
+    }
   },
   props: {
     type: { type: Number, required: true }, // render type
@@ -18,7 +21,8 @@ export default {
   beforeDestroy() {},
   computed: {},
   watch: {
-    data(newV, oldV) {
+    data(newV) {
+      this.timeTicket && clearInterval(this.timeTicket)
       this.data = newV
       this.type === 1 ? this.initAnalysisChart() : this.initEventsChart()
     }
@@ -56,7 +60,7 @@ export default {
             show: true,
             textStyle: {
               color: '#fff', //更改坐标轴文字颜色
-              fontSize: 12 //更改坐标轴文字大小
+              fontSize: 10 //更改坐标轴文字大小
             }
           }
         },
@@ -114,17 +118,19 @@ export default {
 
     // center bottom
     initEventsChart() {
-      console.log('domId', this.domId)
       const chartDom = document.getElementById(this.domId)
       const myChart = this.$echarts.init(chartDom)
       const { dataArr, ratioArr, labelArr } = this.data
-      console.log('🚀 ~ initEventsChart ~ ratioArr', ratioArr)
-      console.log('🚀 ~ initEventsChart ~ dataArr', dataArr)
+      // console.log('🚀 ~ initEventsChart ~ labelArr', labelArr)
+      // console.log('🚀 ~ initEventsChart ~ ratioArr', ratioArr)
+      // console.log('🚀 ~ initEventsChart ~ dataArr', dataArr)
+
       let option
 
       option = {
         tooltip: {
           trigger: 'axis',
+          position: ['80%', '10%'],
           axisPointer: {
             type: 'cross',
             crossStyle: {
@@ -132,25 +138,25 @@ export default {
             }
           }
         },
-        toolbox: {
-          feature: {
-            // dataView: { show: true, readOnly: false },
-            // magicType: { show: true, type: ['line', 'bar'] },
-            // restore: { show: true },
-            // saveAsImage: { show: true }
-          }
-        },
+        // toolbox: {
+        //   feature: {
+        //     // dataView: { show: true, readOnly: false },
+        //     // magicType: { show: true, type: ['line', 'bar'] },
+        //     // restore: { show: true },
+        //     // saveAsImage: { show: true }
+        //   }
+        // },
+        // slider
         dataZoom: {
           show: true,
           type: 'inside',
           realtime: true,
           height: 10,
-          start: 0,
-          end: 30,
+          startValue: 0,
+          endValue: 5,
           textStyle: true
         },
         legend: {
-          // data: ['Evaporation', 'Precipitation', 'Temperature']
           data: ['项目数', '点击率'],
           align: 'left',
           textStyle: {
@@ -271,6 +277,97 @@ export default {
         ]
       }
       option && myChart.setOption(option)
+
+      // setTimeout(() => {
+      //   // myChart.dispatchAction({
+      //   //   type: 'showTip',
+      //   //   seriesIndex: 1,
+      //   //   dataIndex: 0
+      //   // })
+
+      //   clearInterval(this.timeTicket)
+      // }, 5 * 1000)
+
+      /*轮播展示数据*/
+
+      let count = 0
+      // let timeTicket = null
+      // let startIndex = 0
+      // let endIndex = 25
+      const intervalSecs = 3 * 1000 // each item show time interval
+      // const intervalZoom = 25 // each item slider interval
+      const dataLength = option.xAxis[0].data.length
+      // const quarterLen = Math.floor(dataLength / 4)
+
+      this.timeTicket && clearInterval(this.timeTicket)
+
+      // dataZoom切换展示
+      // 控制dataZoom显示 0-25 25-50 50-75 75-100
+
+      this.timeTicket = setInterval(function () {
+        myChart.dispatchAction({
+          type: 'downplay',
+          seriesIndex: 0
+        })
+        myChart.dispatchAction({
+          type: 'highlight',
+          seriesIndex: 0,
+          dataIndex: count % dataLength
+        })
+        // myChart.dispatchAction({
+        //   type: 'showTip',
+        //   seriesIndex: 1,
+        //   dataIndex: count % dataLength
+        // })
+
+        count++
+
+        let x0 = option.xAxis[0].data[0]
+        let s0 = option.series[0].data[0]
+        option.xAxis[0].data.shift()
+        option.xAxis[0].data.push(x0)
+        option.series[0].data.shift()
+        option.series[0].data.push(s0)
+        myChart.setOption(option)
+      }, intervalSecs)
+
+      myChart.on('mouseover', () => {
+        this.timeTicket && clearInterval(this.timeTicket)
+        // myChart.dispatchAction({
+        //   type: 'downplay',
+        //   seriesIndex: 0
+        // })
+        // myChart.dispatchAction({
+        //   type: 'highlight',
+        //   seriesIndex: 0,
+        //   dataIndex: params.dataIndex
+        // })
+        // myChart.dispatchAction({
+        //   type: 'showTip',
+        //   seriesIndex: 0,
+        //   dataIndex: params.dataIndex
+        // })
+      })
+
+      myChart.on('click', () => {
+        this.timeTicket && clearInterval(this.timeTicket)
+        // myChart.dispatchAction({
+        //   type: 'downplay',
+        //   seriesIndex: 0
+        // })
+        // myChart.dispatchAction({
+        //   type: 'highlight',
+        //   seriesIndex: 0,
+        //   dataIndex: params.dataIndex
+        // })
+        // myChart.dispatchAction({
+        //   type: 'showTip',
+        //   seriesIndex: 0,
+        //   dataIndex: params.dataIndex
+        // })
+      })
+
+      myChart.on('mouseout', debounce(this.initEventsChart, 3 * 1000))
     }
   }
 }

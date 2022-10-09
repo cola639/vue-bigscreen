@@ -80,6 +80,7 @@ export default {
   width: 50px;
   height: 18px;
   background-image: url('../../assets/image/title.webp');
+
   margin-left: 16px;
 }
 

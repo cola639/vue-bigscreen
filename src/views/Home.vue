@@ -127,6 +127,7 @@ import {
   getRankCount,
   getHotWords
 } from '@/api/home'
+import { debounce } from '@/utils/number'
 
 export default {
   name: 'Home',
@@ -172,9 +173,11 @@ export default {
     this.getRankCount()
     this.getHotWords()
     this.IntervalDate()
+    window.addEventListener('resize', debounce(this.resizeWindow, 3 * 1000))
   },
   beforeDestroy() {
     this.timer ? clearInterval(this.timer) : null
+    window.removeEventListener('resize')
   },
   methods: {
     getVistCount() {
@@ -275,6 +278,10 @@ export default {
       this.timer = setInterval(() => {
         this.time = this.$moment().format('YYYY年MM月DD日 dddd HH:mm:ss')
       }, 1000)
+    },
+
+    resizeWindow() {
+      location.reload()
     },
 
     handleChooseDate(index) {
