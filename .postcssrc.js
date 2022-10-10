@@ -12,7 +12,7 @@
 //       autoprefixer: {},
 //       'postcss-px-to-viewport': {
 //         unitToConvert: 'px', // unit convert
-//         viewportWidth: 1270, // window.innerWidth
+//         viewportWidth: 1920, // window.innerWidth
 //         unitPrecision: 6, // unit precision
 //         propList: ['*'], // convert all css unit
 //         viewportUnit: 'vw', // unit view port

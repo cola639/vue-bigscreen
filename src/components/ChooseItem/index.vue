@@ -40,9 +40,9 @@ export default {
 </script>
 <style lang="scss" scoped>
 .default {
-  width: 60px;
-  height: 24px;
-  line-height: 24px;
+  width: 100px;
+  height: 30px;
+  line-height: 30px;
   background: rgba(0, 0, 0, 0.25);
   border: 1px solid #0095ff;
   border-radius: 0 2px 2px 0;

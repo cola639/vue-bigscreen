@@ -60,46 +60,44 @@ export default {
 .matchItem {
   width: 100%;
   color: #ffffff;
-  margin-top: 13px;
+  margin-top: 20px;
   &_rank {
-    width: 20px;
-    height: 20px;
+    width: 30px;
+    height: 30px;
     white-space: nowrap;
-    border-radius: 10px;
-    line-height: 20px;
+    border-radius: 20px;
+    line-height: 30px;
     // background-image: url('../../assets/image/dp2_no1icon.webp');
     text-align: center;
   }
   &_name {
-    width: 84px;
-    height: 20px;
-    line-height: 20px;
+    width: 120px;
+    height: 30px;
+    line-height: 30px;
     font-family: PingFangSC-Regular;
     font-weight: 400;
-    font-size: 12px;
+    font-size: 16px;
   }
   &_progress {
-    width: 126px;
-    height: 8px;
-    line-height: 20px;
+    width: 200px;
+    height: 12px;
   }
   &_num {
     width: 30px;
     height: 20px;
     line-height: 20px;
     font-family: PingFangSC-Regular;
-    font-weight: 400;
-    font-size: 14px;
+    font-weight: 600;
+    font-size: 16px;
     padding: 1px 0;
     margin-left: 5px;
   }
-
-  .matchItem_progress {
-    .matchItem_progress_box {
-      height: 100%;
-      background-image: linear-gradient(180deg, #00c7ff 0%, #0095ff 100%);
-      border-radius: 4px;
-    }
+}
+.matchItem_progress {
+  &_box {
+    height: 100%;
+    background-image: linear-gradient(180deg, #00c7ff 0%, #0095ff 100%);
+    border-radius: 4px;
   }
 }
 </style>

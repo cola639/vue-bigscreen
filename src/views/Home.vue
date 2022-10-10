@@ -1,7 +1,7 @@
 <template>
   <div class="bigScreen">
     <!-- Module Head -->
-    <div class="flex-start bs_head">
+    <div class="bs_head">
       <div class="inline-block bs_head_left">
         <!-- <div class="flex-start bs_head_left_wrap">
           <div class="inline-block img-center bs_hlw_img"></div>
@@ -25,7 +25,7 @@
         <div class="img-center cw bs_content_left_top">
           <content-title text="粤省市访问统计" />
 
-          <div class="rc bs_clt_info">
+          <div class="bs_clt_info">
             <span class="inline-block bs_clt_info_item">
               访问人数
               <span-wrap :text="visitData['visit']"></span-wrap>
@@ -43,7 +43,7 @@
             </span>
           </div>
 
-          <div class="rc bs_clt_pipe">
+          <div class="bs_clt_pipe">
             <e-pie :visitData="visitData"></e-pie>
           </div>
         </div>
@@ -51,7 +51,7 @@
         <div class="img-center cw bs_content_left_bottom">
           <content-title text="健康咨询点击量分析" />
 
-          <div class="rc bs_clb_info">
+          <div class="bs_clb_info">
             <span class="inline-block bs_clb_info_item">
               点击总量
               <span-wrap :text="analysisData['total']"></span-wrap>
@@ -76,7 +76,9 @@
         </div>
         <div class="img-center mw bs_content_center_bottom">
           <match-title text="赛事统计" :checkList="typeList" :chooseFun="handleChooseType" />
-          <e-bar :type="2" domId="bs_content_center_bottom" :data="eventsData" />
+          <div class="bs_ccb_echart">
+            <e-bar :type="2" domId="bs_content_center_bottom" :data="eventsData" />
+          </div>
         </div>
       </div>
 
@@ -312,9 +314,10 @@ export default {
 }
 
 .bigScreen {
-  width: 1270px;
-  height: 718px;
-  padding: 0 20px 20px 20px;
+  margin: 0 auto;
+  width: 1920px;
+  height: 1086px;
+  padding: 0 30px 30px 30px;
   background-image: url('../assets/image/bg.webp');
   background-size: cover;
   background-repeat: no-repeat;
@@ -324,29 +327,24 @@ export default {
 /* Module Head */
 .bigScreen .bs_head {
   width: 100%;
-  height: 48.5px;
+  height: 80px;
   color: #fff;
 }
 
 /* head left */
 .bigScreen .bs_head .bs_head_left {
-  width: 186px;
+  width: 280px;
   height: 100%;
-  margin-top: 3px;
+  line-height: 80px;
   font-family: AlibabaPuHuiTiR;
 }
 
+/* head center */
 .bs_head_left_wrap {
   flex: 1;
   span {
     white-space: nowrap;
   }
-}
-
-.bs_head_left_wrap .bs_hlw_img {
-  width: 24px;
-  height: 24px;
-  background-image: url('../assets/image/sunny.webp');
 }
 
 .bs_head_left_wrap span {
@@ -355,10 +353,10 @@ export default {
 
 .bs_head_left .bs_head_left_time {
   font-weight: 700;
-  margin-top: 3px;
   letter-spacing: 0.3px;
   white-space: nowrap;
-  padding: 10px;
+  font-family: AlibabaPuHuiTiB;
+  font-size: 20px;
 }
 
 .bs_head_left .bs_head_left_time .bs_hlt_time {
@@ -367,13 +365,13 @@ export default {
 
 /* head center */
 .bigScreen .bs_head .bs_head_center {
-  width: 675px;
+  width: 1020px;
   height: 100%;
-  line-height: 48.5px;
-  margin-left: 90px;
+  line-height: 80px;
+  margin-left: 138px;
   font-family: AlibabaPuHuiTiH;
   font-weight: 700;
-  font-size: 28px;
+  font-size: 40px;
   color: #ffffff;
   letter-spacing: 2px;
   text-align: center;
@@ -383,37 +381,47 @@ export default {
 /* Module Content */
 .bs_content {
   width: 100%;
-  height: 630px;
+  height: 945px;
   margin-top: 12px;
   color: #fff;
   .bs_content_left {
     height: 100%;
-    width: 320px;
+    width: 484px;
   }
 
   .bs_content_center {
     height: 100%;
-    width: 570px;
-    margin-left: 10px;
+    width: 862px;
+    margin-left: 15px;
   }
 
   .bs_content_right {
     height: 100%;
-    width: 320px;
-    margin-left: 10px;
+    width: 484px;
+    margin-left: 15px;
   }
+}
+
+.bs_content_left_top,
+.bs_content_left_bottom,
+.bs_content_right_top,
+.bs_content_right_bottom {
+  width: 100%;
+  height: 465px;
 }
 
 /*  Module Content left  */
 .bs_content .bs_content_left .bs_content_left_bottom {
-  margin-top: 10px;
+  margin-top: 18px;
 }
 
 .bs_clt_info,
 .bs_clb_info {
-  margin-top: 8px;
-  width: 220px;
+  width: 250px;
   text-align: right;
+  margin: 0 auto;
+  margin-top: 20px;
+  font-size: 20px;
 }
 
 .bs_clt_info .bs_clt_info_item {
@@ -427,8 +435,8 @@ export default {
 
 .bs_content_left_top .bs_clt_pipe {
   width: 100%;
-  height: 120px;
-  margin-top: 5px;
+  height: 200px;
+  margin-top: 30px;
 }
 
 .bs_clb_info .bs_clb_info_item {
@@ -442,30 +450,36 @@ export default {
 
 .bs_content_left_bottom {
   .bs_clb_list {
-    margin-top: 12px;
+    margin-top: 20px;
     z-index: 9;
   }
 
   .bs_clb_echart {
-    width: 300px;
-    height: 230px;
-    margin-top: -20px;
+    width: 100%;
+    height: 300px;
   }
 }
 
 /*  Module Content Center  */
 .bs_content_center {
   .bs_content_center_top {
-    width: 650px;
-    height: 387px;
+    width: 900px;
+    height: 465px;
   }
 
   .bs_content_center_bottom {
-    width: 570px;
-    margin-top: 11px;
+    width: 862px;
+    height: 465px;
+    margin-top: 18px;
+
+    .bs_ccb_echart {
+      width: 862px;
+      height: 400px;
+      margin-top: 25px;
+    }
   }
 }
-/*  Module Content Center  */
+/* content center bottom  */
 .bs_ccb_bar {
   width: 532px;
   height: 171px;
@@ -478,11 +492,11 @@ export default {
   }
 
   .bs_content_right_bottom {
-    margin-top: 10px;
+    margin-top: 18px;
     .bs_crb_info {
-      margin-top: 7px;
+      margin-top: 15px;
       width: 100%;
-      height: 250px;
+      height: 380px;
       position: relative;
     }
   }

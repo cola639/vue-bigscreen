@@ -28,9 +28,9 @@ export default {
   border-radius: 50%;
   border: 1px solid #ff8b37;
   box-shadow: inset 0 0 22px 0 #ff8b37;
-  height: 80px;
+  height: 125px;
   text-align: center;
-  width: 80px;
+  width: 125px;
   span {
     color: #ffffff;
     font-family: AlibabaPuHuiTiB;
@@ -42,17 +42,16 @@ export default {
     text-shadow: 0.5px 0.5px #135dff;
   }
 }
-
 .monthCircle-blue {
   border-radius: 50%;
   border: 1px solid #0095ff;
   box-shadow: inset 0 0 22px 0 #0095ff;
-  height: 147px;
+  height: 250px;
   text-align: center;
-  width: 147px;
+  width: 250px;
   position: absolute;
-  top: 50px;
-  left: 40px;
+  top: 90px;
+  left: 60px;
   span {
     color: #ffffff;
     font-family: AlibabaPuHuiTiB;
@@ -68,12 +67,12 @@ export default {
   border-radius: 50%;
   border: 1px solid #a043ff;
   box-shadow: inset 0 0 22px 0 #a043ff;
-  height: 117px;
+  height: 170px;
   text-align: center;
-  width: 117px;
+  width: 170px;
   position: absolute;
   top: 0;
-  left: 170px;
+  left: 270px;
   span {
     color: #ffffff;
     font-family: AlibabaPuHuiTiB;
@@ -89,9 +88,9 @@ export default {
   border-radius: 50%;
   border: 1px solid #c8ae06;
   box-shadow: inset 0 0 22px 0 #c8ae06;
-  height: 79px;
+  height: 100px;
   text-align: center;
-  width: 79px;
+  width: 100px;
   position: absolute;
   bottom: 0;
   left: 0;
@@ -110,12 +109,12 @@ export default {
   border-radius: 50%;
   border: 1px solid #00ffdf;
   box-shadow: inset 0 0 22px 0 #00ffdf;
-  height: 100px;
+  height: 110px;
   text-align: center;
-  width: 100px;
+  width: 110px;
   position: absolute;
-  bottom: 10px;
-  left: 170px;
+  bottom: 20px;
+  right: 45px;
   span {
     color: #ffffff;
     font-family: AlibabaPuHuiTiB;

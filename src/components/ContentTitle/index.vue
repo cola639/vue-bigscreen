@@ -1,5 +1,5 @@
 <template>
-  <div class="flex-start head">
+  <div class="flex-space-around head">
     <div class="img-center head_left"></div>
     <span class="ib">{{ text }}</span>
     <div class="head_right"></div>
@@ -29,25 +29,28 @@ export default {
 }
 
 .head .head_left {
-  width: 20px;
-  height: 20px;
+  width: 30px;
+  height: 30px;
   background-image: url('../../assets/image/icon1.webp');
-  /* background-color: yellow; */
+  background-repeat: no-repeat;
+  background-position: top center;
 }
 
 .head span {
   font-family: AlibabaPuHuiTiB;
   font-weight: 700;
-  font-size: 20px;
-  margin-left: 5px;
-  width: 200px;
+  font-size: 24px;
+  margin-left: 20px;
+  width: 300px;
+  padding-top: 3px;
 }
 
 .head .head_right {
-  width: 50px;
-  height: 18px;
+  width: 150px;
+  height: 30px;
   background-image: url('../../assets/image/title.webp');
-  margin-left: 16px;
+  margin-left: 40px;
   background-repeat: no-repeat;
+  background-position: center left;
 }
 </style>

@@ -189,27 +189,6 @@ export default {
             nameTextStyle: {
               color: '#fff'
             },
-            min: 0,
-            max: 100,
-            interval: 20,
-            axisLabel: {
-              show: true,
-              textStyle: {
-                color: '#fff', //更改坐标轴文字颜色
-                fontSize: 12 //更改坐标轴文字大小
-              },
-              formatter: '{value} '
-            }
-          },
-          {
-            type: 'value',
-            name: '点击率',
-            nameTextStyle: {
-              color: '#fff'
-            },
-            min: 0,
-            max: 100,
-            interval: 20,
 
             axisLabel: {
               show: true,
@@ -221,6 +200,29 @@ export default {
             },
             splitLine: {
               show: true,
+              // yAxis 穿透线
+              lineStyle: {
+                color: '#0095ff'
+              }
+            }
+          },
+          {
+            type: 'value',
+            name: '点击率',
+            nameTextStyle: {
+              color: '#fff'
+            },
+
+            axisLabel: {
+              show: true,
+              textStyle: {
+                color: '#fff', //更改坐标轴文字颜色
+                fontSize: 12 //更改坐标轴文字大小
+              },
+              formatter: '{value} '
+            },
+            splitLine: {
+              show: false,
               // yAxis 穿透线
               lineStyle: {
                 color: '#0095ff'
@@ -324,10 +326,13 @@ export default {
 
         let x0 = option.xAxis[0].data[0]
         let s0 = option.series[0].data[0]
+        let s1 = option.series[1].data[1]
         option.xAxis[0].data.shift()
         option.xAxis[0].data.push(x0)
         option.series[0].data.shift()
         option.series[0].data.push(s0)
+        option.series[1].data.shift()
+        option.series[1].data.push(s1)
         myChart.setOption(option)
       }, intervalSecs)
 

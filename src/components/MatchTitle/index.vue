@@ -85,7 +85,7 @@ export default {
 }
 
 .head_choose {
-  margin-left: 230px;
+  margin-left: 450px;
 }
 
 .el-dropdown-link {

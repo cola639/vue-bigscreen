@@ -1,4 +1,6 @@
 import axios from 'axios'
+import { Notify } from 'vant'
+import store from '@/store'
 
 // create an axios instance
 const service = axios.create({
@@ -51,7 +53,10 @@ service.interceptors.response.use(
       // 50008: Illegal token; 50012: Other clients logged in; 50014: Token expired;
       if (res.code === 401) {
         // to re-login
-
+        Notify({ type: 'danger', message: '登录超过有效期,需要重新登录' })
+        store.dispatch('user/resetToken').then(() => {
+          // back gdSport admin dashboard
+        })
         console.log('res 401', res.msg)
       }
       if (res.code === 500) {

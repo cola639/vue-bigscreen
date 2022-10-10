@@ -21,7 +21,7 @@
   </span>
 </template>
 <script>
-import { formatZero } from '@/utils/number'
+import utils from '@/utils'
 export default {
   name: 'SpanWrap',
   components: {},
@@ -36,7 +36,7 @@ export default {
   beforeDestroy() {},
   computed: {
     formatText() {
-      return formatZero(this.text, 5)
+      return utils.formatZero(this.text, 5)
     }
   },
   watch: {},
