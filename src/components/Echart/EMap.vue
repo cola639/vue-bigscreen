@@ -87,7 +87,7 @@ export default {
           x: 'center',
           left: 'left',
           textStyle: {
-            color: '#ccc'
+            color: '#fff'
           }
         },
         backgroundColor: 'transparent',
